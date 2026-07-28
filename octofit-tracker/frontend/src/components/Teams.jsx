@@ -1,40 +1,32 @@
-import { useEffect, useState } from "react";
-import { getApiBaseUrl } from "../utils/api.js";
+import { useEffect, useState } from 'react';
+import { getApiUrl } from '../utils/api.js';
 
 function Teams() {
   const [teams, setTeams] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   useEffect(() => {
     async function loadTeams() {
       try {
-        const response = await fetch(`${getApiBaseUrl()}/api/teams/`);
-        if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
-        }
-        const payload = await response.json();
-        const data = Array.isArray(payload) ? payload : payload.teams ?? [];
-        setTeams(data);
+        const response = await fetch(`${getApiUrl('teams')}`);
+        const data = await response.json();
+        const items = Array.isArray(data) ? data : data.teams ?? [];
+        setTeams(items);
       } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        setError(err.message || 'Unable to load teams');
       }
     }
 
     loadTeams();
   }, []);
 
-  if (loading) return <p>Loading teams...</p>;
-  if (error) return <p role="alert">{error}</p>;
-
   return (
     <section>
       <h2>Teams</h2>
+      {error ? <p role="alert">{error}</p> : null}
       <ul>
         {teams.map((team) => (
-          <li key={team._id ?? team.name}>
+          <li key={team._id || team.id || team.name}>
             <strong>{team.name}</strong> — {team.description}
           </li>
         ))}

@@ -5,5 +5,10 @@ export function getApiBaseUrl() {
     return `https://${codespaceName}-8000.app.github.dev`;
   }
 
-  return "http://localhost:8000";
+  return 'http://localhost:8000';
+}
+
+export function getApiUrl(resource) {
+  const baseUrl = getApiBaseUrl();
+  return `${baseUrl}/api/${resource}/`;
 }
