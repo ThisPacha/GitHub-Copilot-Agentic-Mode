@@ -1,6 +1,6 @@
-const PORT = 8000;
+const PORT = process.env.PORT ?? "8000";
 const CODESPACE_NAME = process.env.CODESPACE_NAME;
 export const apiUrl = CODESPACE_NAME
-    ? `https://${CODESPACE_NAME}-${PORT}.app.github.dev`
+    ? `https://${CODESPACE_NAME}-${PORT}.githubpreview.dev`
     : `http://localhost:${PORT}`;
 //# sourceMappingURL=api.js.map
