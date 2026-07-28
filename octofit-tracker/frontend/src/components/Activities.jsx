@@ -8,7 +8,7 @@ function Activities() {
   useEffect(() => {
     async function loadActivities() {
       try {
-        const response = await fetch(`${getApiUrl('activities')}`);
+        const response = await fetch(`${getApiUrl('/api/activities')}`);
         const data = await response.json();
         const items = Array.isArray(data) ? data : data.activities ?? [];
         setActivities(items);
