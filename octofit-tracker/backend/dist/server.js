@@ -9,10 +9,10 @@ import leaderboardRouter from "./routes/leaderboard.js";
 import workoutsRouter from "./routes/workouts.js";
 dotenv.config();
 const app = express();
-const PORT = 8000;
+const PORT = Number(process.env.PORT ?? 8000);
 const CODESPACE_NAME = process.env.CODESPACE_NAME;
 const codespaceUrl = CODESPACE_NAME
-    ? `https://${CODESPACE_NAME}-${PORT}.app.github.dev`
+    ? `https://${CODESPACE_NAME}-8000.app.github.dev`
     : `http://localhost:${PORT}`;
 app.use(cors());
 app.use(express.json());
