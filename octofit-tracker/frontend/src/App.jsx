@@ -1,58 +1,64 @@
-import { NavLink, Route, Routes } from 'react-router-dom';
-import Activities from './components/Activities.jsx';
-import Leaderboard from './components/Leaderboard.jsx';
-import Teams from './components/Teams.jsx';
-import Users from './components/Users.jsx';
-import Workouts from './components/Workouts.jsx';
-import './App.css';
-
-const links = [
-  { to: '/', label: 'Dashboard' },
-  { to: '/users', label: 'Users' },
-  { to: '/teams', label: 'Teams' },
-  { to: '/activities', label: 'Activities' },
-  { to: '/leaderboard', label: 'Leaderboard' },
-  { to: '/workouts', label: 'Workouts' },
-];
-
-function Home() {
-  return (
-    <section>
-      <h2>OctoFit Tracker</h2>
-      <p>Explore users, teams, activities, the leaderboard, and workouts from the multi-tier app.</p>
-      <p>
-        Configure <strong>VITE_CODESPACE_NAME</strong> in <strong>.env.local</strong> to use the Codespaces URL format.
-      </p>
-    </section>
-  );
-}
+import { NavLink, Route, Routes } from 'react-router-dom'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
+import heroImg from '../../../docs/octofitapp-small.png'
+import './App.css'
 
 function App() {
   return (
     <div className="app-shell">
-      <header>
-        <h1>OctoFit Tracker</h1>
-        <nav>
-          {links.map((link) => (
-            <NavLink key={link.to} to={link.to} end={link.to === '/'}>
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
+      <header className="hero">
+        <div>
+          <p className="eyebrow">OctoFit Tracker</p>
+          <h1>Train smarter with your team</h1>
+          <p>Monitor activity, compare performance, and keep your crew moving.</p>
+        </div>
+        <img src={heroImg} alt="OctoFit tracker logo" width="110" height="110" />
       </header>
 
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/teams" element={<Teams />} />
-          <Route path="/activities" element={<Activities />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/workouts" element={<Workouts />} />
-        </Routes>
-      </main>
+      <nav className="nav" aria-label="Primary">
+        <NavLink to="/">Dashboard</NavLink>
+        <NavLink to="/users">Users</NavLink>
+        <NavLink to="/teams">Teams</NavLink>
+        <NavLink to="/activities">Activities</NavLink>
+        <NavLink to="/leaderboard">Leaderboard</NavLink>
+        <NavLink to="/workouts">Workouts</NavLink>
+      </nav>
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="grid">
+              <section className="card">
+                <Users />
+              </section>
+              <section className="card">
+                <Teams />
+              </section>
+              <section className="card">
+                <Activities />
+              </section>
+              <section className="card">
+                <Leaderboard />
+              </section>
+              <section className="card">
+                <Workouts />
+              </section>
+            </div>
+          }
+        />
+        <Route path="/users" element={<Users />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/activities" element={<Activities />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/workouts" element={<Workouts />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

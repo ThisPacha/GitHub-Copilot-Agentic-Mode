@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils/api.js';
+import { fetchApi } from '../utils/api.js';
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -9,8 +9,7 @@ export default function Users() {
   useEffect(() => {
     async function loadUsers() {
       try {
-        const endpoint = '/api/users/';
-        const response = await fetch(`${getApiUrl('users')}`);
+        const response = await fetchApi('users');
         const data = await response.json();
         const list = Array.isArray(data) ? data : data.users ?? data.results ?? [];
         setUsers(list);
@@ -33,7 +32,7 @@ export default function Users() {
         <ul>
           {users.map((user) => (
             <li key={user._id || user.id || user.email}>
-              {user.name} — {user.role}
+              {user.name} — {user.email}
             </li>
           ))}
         </ul>

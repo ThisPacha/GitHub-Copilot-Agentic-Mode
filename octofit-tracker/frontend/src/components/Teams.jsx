@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils/api.js';
+import { fetchApi } from '../utils/api.js';
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
@@ -9,8 +9,7 @@ export default function Teams() {
   useEffect(() => {
     async function loadTeams() {
       try {
-        const endpoint = '/api/teams/';
-        const response = await fetch(`${getApiUrl('teams')}`);
+        const response = await fetchApi('teams');
         const data = await response.json();
         const list = Array.isArray(data) ? data : data.teams ?? data.results ?? [];
         setTeams(list);
@@ -33,7 +32,7 @@ export default function Teams() {
         <ul>
           {teams.map((team) => (
             <li key={team._id || team.id || team.name}>
-              {team.name} — {team.description}
+              {team.name} — {team.members?.length || 0} members
             </li>
           ))}
         </ul>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiUrl } from '../utils/api.js';
+import { fetchApi } from '../utils/api.js';
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -9,8 +9,7 @@ export default function Workouts() {
   useEffect(() => {
     async function loadWorkouts() {
       try {
-        const endpoint = '/api/workouts/';
-        const response = await fetch(`${getApiUrl('workouts')}`);
+        const response = await fetchApi('workouts');
         const data = await response.json();
         const list = Array.isArray(data) ? data : data.workouts ?? data.results ?? [];
         setWorkouts(list);
@@ -32,8 +31,8 @@ export default function Workouts() {
       {!loading && !error && (
         <ul>
           {workouts.map((workout) => (
-            <li key={workout._id || workout.id || workout.title}>
-              {workout.title} — {workout.difficulty} ({workout.durationMinutes} min)
+            <li key={workout._id || workout.id || workout.name}>
+              {workout.name} — {workout.focus} ({workout.durationMinutes} min)
             </li>
           ))}
         </ul>
