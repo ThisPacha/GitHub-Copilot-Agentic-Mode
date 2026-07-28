@@ -11,13 +11,13 @@ dotenv.config();
 const app = express();
 const PORT = Number(process.env.PORT ?? 8000);
 const CODESPACE_NAME = process.env.CODESPACE_NAME;
-const apiUrl = CODESPACE_NAME
-    ? `https://${CODESPACE_NAME}-${PORT}.githubpreview.dev`
+const codespaceUrl = CODESPACE_NAME
+    ? `https://${CODESPACE_NAME}-${PORT}.app.github.dev`
     : `http://localhost:${PORT}`;
 app.use(cors());
 app.use(express.json());
 app.get("/", (req, res) => {
-    res.json({ message: "OctoFit Tracker backend is running.", apiUrl });
+    res.json({ message: "OctoFit Tracker backend is running.", apiUrl: codespaceUrl });
 });
 app.use("/api/users", usersRouter);
 app.use("/api/teams", teamsRouter);
@@ -27,7 +27,7 @@ app.use("/api/workouts", workoutsRouter);
 export async function startServer() {
     await connectDatabase();
     return app.listen(PORT, () => {
-        console.log(`Backend listening on ${apiUrl}`);
+        console.log(`Backend listening on ${codespaceUrl}`);
     });
 }
 export default app;
