@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { fetchApi } from '../utils/api.js';
 
 export default function Teams() {
   const [teams, setTeams] = useState([]);
@@ -9,7 +8,7 @@ export default function Teams() {
   useEffect(() => {
     async function loadTeams() {
       try {
-        const response = await fetchApi('teams');
+        const response = await fetch('/api/teams/');
         const data = await response.json();
         const list = Array.isArray(data) ? data : data.teams ?? data.results ?? [];
         setTeams(list);
