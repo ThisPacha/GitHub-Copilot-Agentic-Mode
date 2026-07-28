@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDatabase from "./config/database.js";
-import { apiUrl } from "./config/api.js";
 import usersRouter from "./routes/users.js";
 import teamsRouter from "./routes/teams.js";
 import activitiesRouter from "./routes/activities.js";
@@ -11,6 +10,10 @@ import workoutsRouter from "./routes/workouts.js";
 dotenv.config();
 const app = express();
 const PORT = Number(process.env.PORT ?? 8000);
+const CODESPACE_NAME = process.env.CODESPACE_NAME;
+const apiUrl = CODESPACE_NAME
+    ? `https://${CODESPACE_NAME}-${PORT}.githubpreview.dev`
+    : `http://localhost:${PORT}`;
 app.use(cors());
 app.use(express.json());
 app.get("/", (req, res) => {
