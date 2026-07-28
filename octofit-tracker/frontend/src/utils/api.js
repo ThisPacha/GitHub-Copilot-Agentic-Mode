@@ -1,14 +1,6 @@
-export function getApiBaseUrl() {
-  const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-
-  if (codespaceName) {
-    return `https://${codespaceName}-8000.app.github.dev`;
-  }
-
-  return 'http://localhost:8000';
-}
-
 export function getApiUrl(resource) {
-  const baseUrl = getApiBaseUrl();
-  return `${baseUrl}/api/${resource}/`;
+  const envName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+  const host = envName ? `${envName}-8000.app.github.dev` : 'localhost:8000';
+  const protocol = envName ? 'https' : 'http';
+  return `${protocol}://${host}/api/${resource}/`;
 }

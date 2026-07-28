@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react';
 import { getApiUrl } from '../utils/api.js';
 
-function Workouts() {
+export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     async function loadWorkouts() {
       try {
+        const endpoint = '/api/workouts/';
         const response = await fetch(`${getApiUrl('workouts')}`);
         const data = await response.json();
-        const items = Array.isArray(data) ? data : data.workouts ?? [];
-        setWorkouts(items);
+        const list = Array.isArray(data) ? data : data.workouts ?? data.results ?? [];
+        setWorkouts(list);
       } catch (err) {
         setError(err.message || 'Unable to load workouts');
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -23,16 +27,17 @@ function Workouts() {
   return (
     <section>
       <h2>Workouts</h2>
-      {error ? <p role="alert">{error}</p> : null}
-      <ul>
-        {workouts.map((workout) => (
-          <li key={workout._id || workout.id || workout.title}>
-            <strong>{workout.title}</strong> — {workout.difficulty} ({workout.durationMinutes} min)
-          </li>
-        ))}
-      </ul>
+      {loading && <p>Loading workouts...</p>}
+      {error && <p role="alert">{error}</p>}
+      {!loading && !error && (
+        <ul>
+          {workouts.map((workout) => (
+            <li key={workout._id || workout.id || workout.title}>
+              {workout.title} — {workout.difficulty} ({workout.durationMinutes} min)
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
-
-export default Workouts;
